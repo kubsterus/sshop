@@ -12,7 +12,7 @@ window.onload = function(){
                        $("#domainFinderResult").text(data.domain);
                        $('[name="shop"]').val(data.id);
                    }
-                   else{
+                   else{ 
                        $("#domainFinderResult").text('');
                        $('[name="shop"]').val('');
                    }
