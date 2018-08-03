@@ -25,3 +25,5 @@ Route::post('/home/shop/store/{id}', 'ShopController@store');
 Route::get('/home/shop/destroy/{id}', 'ShopController@destroy');
 Route::get('/home/shops', 'ShopController@all');
 Route::get('/home/shops/{page}', 'ShopController@all');
+Route::get('/home/product', 'ShopController@index');
+Route::get('/home/product/{id}', 'ShopController@index');
