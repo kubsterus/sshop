@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ProductController extends Controller
 {
@@ -14,7 +16,16 @@ class ProductController extends Controller
      */
     public function index($id = 0)
     {
-        return view('auth.product');
+        $data = [];
+        $product = new Product;
+        $shop = new \stdClass();
+        if($id != null){
+            $product = Product::find($id);
+            $shop = Shop::find($product->shop);
+        }
+        $data["product"] = $product;
+        $data["shop"] = $shop;
+        return view('auth.product', $data);
     }
 
     /**
@@ -35,7 +46,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = new Product();
+        if($request->id){
+            $shop = Product::find($request->id);
+        }
+        $product->link = $request->link;
+        $product->shop = $request->shop;
+        if(Input::file('photo') != null){
+            Input::file('photo')->move(base_path().'/public/img', Input::file('photo')->getClientOriginalName());
+            $product->photo =  Input::file('photo')->getClientOriginalName();
+        }
+
+        $product->save();
+
     }
 
     /**

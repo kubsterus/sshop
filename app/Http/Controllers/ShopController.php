@@ -60,6 +60,11 @@ class ShopController extends Controller
         $shop->save();
         return redirect("/home/shop/".$shop->id);
     }
+    function jsonList(Request $request){
+        $like = $request->like;
+        $shops = Shop::where('domain', 'like', $like.'%')->limit(1)->get();
+        return $shops->toArray();
+    }
     /**
      * Display the specified resource.
      *
