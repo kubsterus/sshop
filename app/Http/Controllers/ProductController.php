@@ -14,11 +14,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index($id = 0)
     {
         $data = [];
         $product = new Product;
-        $shop = new \stdClass();
+        $shop = new Shop;
         if($id != null){
             $product = Product::find($id);
             $shop = Shop::find($product->shop);
@@ -48,7 +52,7 @@ class ProductController extends Controller
     {
         $product = new Product();
         if($request->id){
-            $shop = Product::find($request->id);
+            $product = Product::find($request->id);
         }
         $product->link = $request->link;
         $product->shop = $request->shop;
@@ -56,8 +60,8 @@ class ProductController extends Controller
             Input::file('photo')->move(base_path().'/public/img', Input::file('photo')->getClientOriginalName());
             $product->photo =  Input::file('photo')->getClientOriginalName();
         }
-
         $product->save();
+        return redirect('/admin/product/'.$product->id);
 
     }
 
@@ -101,8 +105,20 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id = 0)
     {
-        //
+        if($id!=0){
+            Product::destroy($id);
+        }
+        return redirect("/admin/products");
     }
+    public function all($page = 0){
+        $data = [
+            "page" => $page
+        ];
+        $products = Product::orderBy("id", "desc")->paginate(5);
+        $data["products"] = $products;
+        return view('auth.products', $data);
+    }
+
 }

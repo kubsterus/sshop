@@ -62,6 +62,9 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            label{
+                display: block;
+            }
         </style>
     </head>
     <body>

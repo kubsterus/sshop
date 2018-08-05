@@ -11,21 +11,28 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', "FrontController@main");
+Route::post('/p/find', "FrontController@find");
+Route::get('/{id}', 'FrontController@product');
 
 Auth::routes();
+Route::get('/home', 'HomeController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/shop', 'ShopController@create');
-Route::get('/home/shop/{id}', 'ShopController@create');
-Route::post('/home/shop/store', 'ShopController@store');
-Route::post('/home/shop/store/{id}', 'ShopController@store');
-Route::get('/home/shop/destroy/{id}', 'ShopController@destroy');
-Route::get('/home/shops', 'ShopController@all');
-Route::get('/home/shops/{page}', 'ShopController@all');
-Route::get('/home/product/{id}', 'ProductController@index');
-Route::get('/home/product', 'ProductController@index');
-Route::post('/home/product/store', 'ProductController@store');
-Route::post('/home/shops/json', 'ShopController@jsonList');
+
+Route::group(["middleware"=>"auth", "prefix"=>"admin"], function(){
+    Route::get('/panel', 'HomeController@index');
+    Route::get('/shop', 'ShopController@create');
+    Route::get('/shop/{id}', 'ShopController@create');
+    Route::post('/shop/store', 'ShopController@store');
+    Route::post('/shop/store/{id}', 'ShopController@store');
+    Route::get('/shop/destroy/{id}', 'ShopController@destroy');
+    Route::get('/shops', 'ShopController@all');
+    Route::get('/shops/{page}', 'ShopController@all');
+    Route::get('/product/{id}', 'ProductController@index');
+    Route::get('/product', 'ProductController@index');
+    Route::post('/product/store', 'ProductController@store');
+    Route::get('/products', 'ProductController@all');
+    Route::get('/products/{page}', 'ProductController@all');
+    Route::get('/product/destroy/{id}', 'ProductController@destroy');
+    Route::post('/shops/json', 'ShopController@jsonList');
+});

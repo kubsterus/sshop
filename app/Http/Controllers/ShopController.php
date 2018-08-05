@@ -14,6 +14,11 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
 
@@ -58,7 +63,7 @@ class ShopController extends Controller
 
         $shop->code = $request->code;
         $shop->save();
-        return redirect("/home/shop/".$shop->id);
+        return redirect("/admin/shop/".$shop->id);
     }
     function jsonList(Request $request){
         $like = $request->like;
@@ -110,13 +115,13 @@ class ShopController extends Controller
         if($id){
             Shop::destroy($id);
         }
-        return redirect("/home/shops");
+        return redirect("/admin/shops");
     }
     public function all($page = 0){
         $data = [
             "page" => $page
         ];
-        $shops = Shop::all();
+        $shops = Shop::orderBy("id", "desc")->paginate(5);
         $data["shops"] = $shops;
         return view('auth.shops', $data);
     }

@@ -6,7 +6,7 @@
         <h1>Магазины</h1>
     </div>
     <div class="row">
-        <a href="/home/shop" class="btn btn-success">Создать магазин</a>
+        <a href="/admin/shop" class="btn btn-success">Создать магазин</a>
     </div>
     <div class="row">
         <table class="table table-stripped">
@@ -27,13 +27,16 @@
                     <td>{{$shop->title}} (ID: {{$shop->id}})</td>
                     <td>{{$shop->description}}</td>
                     <td>
-                        <a href="/home/shop/{{$shop->id}}" class="btn btn-primary">Изменить</a>
-                        <a href="/home/shop/destroy/{{$shop->id}}" class="btn btn-danger">Удалить</a>
+                        <a href="/admin/shop/{{$shop->id}}" class="btn btn-primary">Изменить</a>
+                        <a href="/admin/shop/destroy/{{$shop->id}}" class="btn btn-danger">Удалить</a>
                     </td>
                 </tr>
                     @endforeach
             </tbody>
         </table>
     </div>
+</section>
+<section class="container">
+    {{ $shops->links() }}
 </section>
 @endsection
