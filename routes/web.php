@@ -13,7 +13,7 @@
 
 Route::get('/', "FrontController@main");
 Route::post('/p/find', "FrontController@find");
-Route::get('/{id}', 'FrontController@product');
+Route::get('/{id}', 'FrontController@product')->where('id', '[0-9]+');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index');
